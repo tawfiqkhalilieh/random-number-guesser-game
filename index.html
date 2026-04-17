@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guess the Number 🎯</title>
 
 <style>
@@ -9,61 +10,64 @@ body {
     font-family: "Comic Sans MS", cursive;
     background-color: #87CEFA;
     text-align: center;
-    padding: 50px;
+    margin: 0;
+    padding: 20px;
     color: #333;
 }
 
 .container {
     background-color: #fff8dc;
-    padding: 30px;
+    padding: 20px;
     border-radius: 20px;
-    display: inline-block;
     border: 5px solid #ff6b6b;
+    max-width: 400px;
+    margin: auto;
 }
 
 h1 {
-    font-size: 40px;
+    font-size: 32px;
     color: #ff6b6b;
 }
 
 p {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 input {
-    padding: 10px;
-    font-size: 20px;
-    border-radius: 10px;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 12px;
     border: 3px solid #48dbfb;
-    margin-top: 10px;
-    width: 100px;
+    margin-top: 15px;
+    width: 80%;
     text-align: center;
 }
 
 button {
     margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 20px;
+    padding: 15px;
+    font-size: 18px;
     border: none;
     border-radius: 15px;
     background-color: #1dd1a1;
     color: white;
     cursor: pointer;
+    width: 80%;
 }
 
-button:hover {
+button:active {
     background-color: #10ac84;
 }
 
 #message {
     margin-top: 20px;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
 }
 
 #lastGuess {
     margin-top: 10px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .win {
@@ -75,6 +79,17 @@ button:hover {
     from { transform: translateY(0); }
     to { transform: translateY(-8px); }
 }
+
+/* Make things even nicer on very small screens */
+@media (max-width: 400px) {
+    h1 {
+        font-size: 26px;
+    }
+
+    input, button {
+        width: 100%;
+    }
+}
 </style>
 </head>
 
@@ -84,7 +99,7 @@ button:hover {
     <h1>🎯 Guess the Number!</h1>
     <p>Pick a number between 1 and 100</p>
 
-    <input type="number" id="guess" min="1" max="100">
+    <input type="number" id="guess" min="1" max="100" inputmode="numeric">
     <br>
     <button onclick="checkGuess()">Guess!</button>
 
@@ -97,8 +112,8 @@ let x = Math.floor(Math.random() * 100) + 1;
 
 const input = document.getElementById("guess");
 
-// Enter key support
-input.addEventListener("keypress", function(event) {
+// Enter key (also works on mobile keyboards)
+input.addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         checkGuess();
     }
@@ -114,7 +129,6 @@ function checkGuess() {
         return;
     }
 
-    // update last guess
     last.textContent = z;
 
     if (z === x) {
