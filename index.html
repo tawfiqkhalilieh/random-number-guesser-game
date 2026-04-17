@@ -69,7 +69,7 @@ button:active {
     font-weight: bold;
 }
 
-#lastGuess {
+#lastGuess, #attempts {
     margin-top: 10px;
     font-size: 16px;
 }
@@ -113,11 +113,13 @@ button:active {
     <button onclick="checkGuess()">خمن</button>
 
     <div id="lastGuess">آخر محاولة: <span id="last">لا يوجد</span></div>
+    <div id="attempts">عدد المحاولات: <span id="count">0</span></div>
     <div id="message"></div>
 </div>
 
 <script>
 let x = Math.floor(Math.random() * 100) + 1;
+let attempts = 0;
 
 const input = document.getElementById("guess");
 
@@ -132,17 +134,30 @@ function checkGuess() {
     let z = Number(input.value);
     let message = document.getElementById("message");
     let last = document.getElementById("last");
+    let count = document.getElementById("count");
 
     if (!z) {
         message.textContent = "⚠️ أدخل رقم!";
         return;
     }
 
+    attempts++;
+    count.textContent = attempts;
+
     last.textContent = z;
 
     if (z === x) {
         message.textContent = "🎉 فزت!!!";
         message.className = "win";
+
+        // reset game after short delay
+        setTimeout(() => {
+            x = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            count.textContent = 0;
+            last.textContent = "لا يوجد";
+            message.textContent = "";
+        }, 2000);
     } 
     else if (z > x) {
         message.textContent = "⬇️ أقل!";
